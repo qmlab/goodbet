@@ -1,0 +1,1 @@
+cmd /c GBReport.exe >> Reporter.log 2>&1

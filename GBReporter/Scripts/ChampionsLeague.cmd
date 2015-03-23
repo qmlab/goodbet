@@ -1,0 +1,1 @@
+cmd /c GBCollect.exe ChampionsLeague >> ChampionsLeague.log 2>&1

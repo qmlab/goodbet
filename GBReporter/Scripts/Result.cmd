@@ -1,0 +1,1 @@
+cmd /c GBResult.exe >> Results.log 2>&1

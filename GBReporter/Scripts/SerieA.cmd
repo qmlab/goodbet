@@ -1,0 +1,1 @@
+cmd /c GBCollect.exe SerieA >> SerieA.log 2>&1

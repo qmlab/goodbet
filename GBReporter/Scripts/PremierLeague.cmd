@@ -1,0 +1,1 @@
+cmd /c GBCollect.exe PremierLeague >> PremierLeague.log 2>&1

@@ -1,0 +1,1 @@
+cmd /c GBCollect.exe LaLiga >> LaLiga.log 2>&1
