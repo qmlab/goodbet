@@ -13,6 +13,8 @@ namespace GoodBet
         SerieA,
         LaLiga,
         Bundesliga,
-        EuropaLeague
+        EuropaLeague,
+        Ligue1,
+        MLS
     }
 }

@@ -1,0 +1,1 @@
+cmd /c GBCollect.exe Ligue1 >> Ligue1.log 2>&1
