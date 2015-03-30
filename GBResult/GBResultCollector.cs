@@ -25,7 +25,7 @@ namespace Goodbet.GBResult
         public void UpdateResults()
         {
             var response1 = GBCommon.SendRequest(
-                "{\"$or\":[{\"BetItem.Result\":{\"$not\":{\"$exists\":\"true\"}}}, {\"BetItem.Result\":\"null\"}]}",
+                "{\"$or\":[{\"BetItem.Result\":{\"$not\":{\"$exists\":\"true\"}}}, {\"BetItem.Result\":\"null\"}]}, {\"BetItem.Result\":\"Unknown\"}]}",
                 ConfigurationManager.AppSettings["datastore"],
                 ConfigurationManager.AppSettings["apikey"],
                 ConfigurationManager.AppSettings["passwd"],
