@@ -179,7 +179,7 @@ namespace GoodBet.Collector
                     }
                 }
 
-                if (lastValid > startIndex)
+                if (lastValid >= startIndex)
                 {
                     GBCommon.WriteContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType), lastValid);
                 }
