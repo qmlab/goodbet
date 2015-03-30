@@ -56,6 +56,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="Scripts\MLS.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\Ligue1.cmd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Scripts\Bundesliga.cmd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
