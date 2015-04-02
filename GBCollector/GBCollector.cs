@@ -73,7 +73,7 @@ namespace GoodBet.Collector
                     }
                     if (string.IsNullOrEmpty(dateStr) || string.IsNullOrEmpty(team1) || string.IsNullOrEmpty(team2))
                     {
-                        throw new WebException(matchAlias + ": No match time or team name is found");
+                        throw new ApplicationException(matchAlias + ": No match time or team name is found");
                     }
 
 
@@ -185,7 +185,7 @@ namespace GoodBet.Collector
                     }
                 }
 
-                if (lastValid >= startIndex)
+                if (lastValid >= lastProcessed)
                 {
                     GBCommon.WriteContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType), lastValid);
                 }
