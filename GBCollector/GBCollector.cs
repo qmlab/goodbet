@@ -104,13 +104,16 @@ namespace GoodBet.Collector
                     }
 
                     string fileName = GBCommon.ConstructRecordFileName(gameType, team1, team2, dateStr);
-                    if (File.Exists(fileName))
+                    if (!File.Exists(fileName))
                     {
-                        File.Delete(fileName);
+                        mgr.Serialize(fileName);
+                        GBCommon.LogInfo("{0}: Collected {1}", DateTime.Now, fileName);
                     }
-                    mgr.Serialize(fileName);
+                    else
+                    {
+                        GBCommon.LogInfo("{0}: {1} skipped", DateTime.Now, fileName);
+                    }
 
-                    GBCommon.LogInfo("{0}: Collected {1}", DateTime.Now, fileName);
                 }
             }
         }
@@ -141,7 +144,7 @@ namespace GoodBet.Collector
 
             try
             {
-                int startIndex = startFrom > 0 ? startFrom : 1 + GBCommon.ReadContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType));
+                int startIndex = startFrom > 0 ? startFrom : -99 + GBCommon.ReadContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType));
 
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
