@@ -141,7 +141,8 @@ namespace GoodBet.Collector
 
             try
             {
-                int startIndex = startFrom > 0 ? startFrom : -99 + GBCommon.ReadContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType));
+                int lastProcessed = GBCommon.ReadContinuationIndex(GBCommon.ConstructCollectContinuationFileName(gameType));
+                int startIndex = startFrom > 0 ? startFrom : -99 + lastProcessed;
 
                 Stopwatch watch = new Stopwatch();
                 watch.Start();
@@ -160,9 +161,14 @@ namespace GoodBet.Collector
                     }
                     catch (ApplicationException e)
                     {
+                        if (currentIndex < lastProcessed)
+                        {
+                            // In this case, a past match or past empty slot is being processed
+                            continue;
+                        }
                         if (++count < toleranceCount)
                         {
-                            //GBCommon.LogInfo("Skip {0}", e.Message);
+                            // In this case, a possible future empty slot is being processed
                         }
                         else
                         {
