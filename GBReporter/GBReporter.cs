@@ -46,20 +46,31 @@ namespace GoodBet.GBReport
                     if (file.LastWriteTime > latest)
                         latest = file.LastWriteTime;
 
-
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(ConfigurationManager.AppSettings["datastore"]);
-                    request.KeepAlive = false;
-                    request.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["apikey"], ConfigurationManager.AppSettings["passwd"]);
-                    request.Method = "PUT";
-                    request.ContentType = "application/json";
-                    using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+                    // If the game stake exists, delete the old one
+                    var deleteStakeResponse = GBCommon.SendRequest(
+                        "{\"BetItem.GameName\": \"" + bestStake.BetItem.GameName + "\"}",
+                        ConfigurationManager.AppSettings["datastore"],
+                        ConfigurationManager.AppSettings["apikey"],
+                        ConfigurationManager.AppSettings["passwd"],
+                        "application/json",
+                        "DELETE"
+                        );
+                    using (StreamReader streamReader = new StreamReader(deleteStakeResponse.GetResponseStream()))
                     {
-                        string json = JsonConvert.SerializeObject(bestStake);
-                        streamWriter.Write(json);
+                        var text = streamReader.ReadToEnd();
+                        Console.WriteLine(text);
                     }
-                    request.GetRequestStream().Close();
-                    var response = (HttpWebResponse)request.GetResponse();
-                    using (StreamReader streamReader = new StreamReader(response.GetResponseStream()))
+
+                    // Add the new stake
+                    var addStakeResponse = GBCommon.SendRequest(
+                        JsonConvert.SerializeObject(bestStake),
+                        ConfigurationManager.AppSettings["datastore"],
+                        ConfigurationManager.AppSettings["apikey"],
+                        ConfigurationManager.AppSettings["passwd"],
+                        "application/json",
+                        "PUT"
+                        );
+                    using (StreamReader streamReader = new StreamReader(addStakeResponse.GetResponseStream()))
                     {
                         var text = streamReader.ReadToEnd();
                         Console.WriteLine(text);

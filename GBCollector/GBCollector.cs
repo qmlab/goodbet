@@ -104,16 +104,13 @@ namespace GoodBet.Collector
                     }
 
                     string fileName = GBCommon.ConstructRecordFileName(gameType, team1, team2, dateStr);
-                    if (!File.Exists(fileName))
+                    if (File.Exists(fileName))
                     {
-                        mgr.Serialize(fileName);
-                        GBCommon.LogInfo("{0}: Collected {1}", DateTime.Now, fileName);
-                    }
-                    else
-                    {
-                        GBCommon.LogInfo("{0}: {1} skipped", DateTime.Now, fileName);
+                        File.Delete(fileName);
                     }
 
+                    GBCommon.LogInfo("{0}: Collected {1}", DateTime.Now, fileName);
+                    mgr.Serialize(fileName);
                 }
             }
         }
