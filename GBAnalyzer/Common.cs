@@ -184,7 +184,12 @@ namespace GoodBet
                 {
                     if (retry++ >= retries)
                     {
+                        GBCommon.LogInfo("Too many failures. Stop retrying.");
                         throw e;
+                    }
+                    else
+                    {
+                        GBCommon.LogInfo("Retry {0} time(s)", retry);
                     }
                 }
             }
