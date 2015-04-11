@@ -41,7 +41,9 @@ namespace GoodBet.Collector
             Guid matchGuid = Guid.NewGuid();
             string team1 = "", team2 = "", dateStr = "";
 
-            using (Stream stream = getRequest.GetResponse().GetResponseStream())
+            WebResponse response = GBCommon.GetResponseWithRetries(getRequest, GBCommon.DefaultRetries);
+
+            using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {

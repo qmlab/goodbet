@@ -81,7 +81,9 @@ namespace Goodbet.GBResult
             Uri uri = new Uri(baseuri, string.Format("Matches/{0}", matchIndex));
             WebRequest getRequest = WebRequest.Create(uri);
 
-            using (Stream stream = getRequest.GetResponse().GetResponseStream())
+            WebResponse response = GBCommon.GetResponseWithRetries(getRequest, GBCommon.DefaultRetries);
+
+            using (Stream stream = response.GetResponseStream())
             {
                 using (StreamReader reader = new StreamReader(stream))
                 {

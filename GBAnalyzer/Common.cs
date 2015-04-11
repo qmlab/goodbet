@@ -16,7 +16,7 @@ namespace GoodBet
     {
         static object reportLock = new object();
         static object logMethodLock = new object();
-        static int defaultRetries = 3;
+        static public int DefaultRetries = 3;
         static LogMethod logMethod = LogMethod.Console; // Log to Console by default
 
         private static LogMethod CurrentLogMethod
@@ -87,7 +87,7 @@ namespace GoodBet
         #region Reporting
         static public void Report(string content, GameType type)
         {
-            Report(content, type, defaultRetries);
+            Report(content, type, DefaultRetries);
         }
         static public void Report(string content, GameType type, int retryCount)
         {
@@ -168,6 +168,27 @@ namespace GoodBet
             string filename = gameType.ToString() + "-Collect.ini";
             string workdir = Path.Combine(DataFolder, gameType.ToString()); ;
             return Path.Combine(workdir, filename);
+        }
+
+        public static WebResponse GetResponseWithRetries(WebRequest getRequest, int retries)
+        {
+            int retry = 0;
+            WebResponse response = null;
+            while (null == response)
+            {
+                try
+                {
+                    response = getRequest.GetResponse();
+                }
+                catch (WebException e)
+                {
+                    if (retry++ >= retries)
+                    {
+                        throw e;
+                    }
+                }
+            }
+            return response;
         }
         #endregion
 
@@ -310,7 +331,7 @@ namespace GoodBet
                 streamWriter.Write(json);
             }
             request.GetRequestStream().Close();
-            var response = (HttpWebResponse)request.GetResponse();
+            var response = (HttpWebResponse)GetResponseWithRetries(request, DefaultRetries);
             return response;
         }
 
