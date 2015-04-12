@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Threading;
 
 namespace GoodBet
 {
@@ -16,7 +17,7 @@ namespace GoodBet
     {
         static object reportLock = new object();
         static object logMethodLock = new object();
-        static public int DefaultRetries = 3;
+        static public int DefaultRetries = 5;
         static LogMethod logMethod = LogMethod.Console; // Log to Console by default
 
         private static LogMethod CurrentLogMethod
@@ -190,6 +191,7 @@ namespace GoodBet
                     else
                     {
                         GBCommon.LogInfo("Retry {0} time(s)", retry);
+                        Thread.Sleep(15000);
                     }
                 }
             }
